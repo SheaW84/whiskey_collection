@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Title</title>
+        <title>Whiskey Collection</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -15,33 +15,42 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
         />
+        <link rel="stylesheet" href="../static/css/main.css">
     </head>
 
     <body>
-        <header>
             <nav class="navbar navbar-expand-sm bg-warning navbar-dark">
                 <div class="container-fluid">
-                  <a class="navbar-brand" href="#">Logo</a>
+                  <a class="navbar-brand" href="{{ url_for('site.home')}}">Logo</a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                   </button>
                   <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ms-auto">
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="{{ url_for('site.home') }}">Home</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        {% if current_user.is_authenticated %}
+                        <a class="nav-link" href="{{ url_for('auth.profile') }}">Profile</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="{{ url_for('auth.signout') }}">Sign Out</a>
                       </li>
+                      {% else %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.signin') }}">Sign In</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.signup') }}">Sign Up</a>
+                      </li>
+                      {% endif %}
                     </ul>
                   </div>
                 </div>
               </nav>
-        </header>
-        <main>{% block body %}{% endblock %}</main>
+{% block content %}
+{% endblock %}
         <footer>
             <!-- place footer here -->
         </footer>

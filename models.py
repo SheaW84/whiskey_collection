@@ -48,8 +48,8 @@ class User(db.Model, UserMixin):
         return f'User {self.email} has been added to the database'
     
 class Whiskey(db.Model):
-    id = db.Column(db.String, primary_key = True)
-    brand = db.Column(db.String(150, nullable =False))
+    id = db.Column(db.String, primary_key=True)
+    brand = db.Column(db.String(150), nullable=False)
     variety = db.Column(db.String(150))
     origin = db.Column(db.String(150))
     year = db.Column(db.String(5))
