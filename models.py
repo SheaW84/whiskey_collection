@@ -8,9 +8,9 @@ from flask_login import LoginManager
 from flask_marshmallow import Marshmallow 
 import secrets
 
-login_manager = LoginManager()
-ma = Marshmallow()
-db = SQLAlchemy()
+login_manager=LoginManager()
+ma=Marshmallow()
+db=SQLAlchemy()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), nullable=False)
     password = db.Column(db.String, nullable=True, default='')
     token = db.Column(db.String, default='', unique = True)
-    date_created =  db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
+    date_created = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
 
     def __init__(self, email, first_name='', last_name='', password='', token=''):
         self.id = self.set_id()
@@ -33,7 +33,6 @@ class User(db.Model, UserMixin):
         self.email = email
         self.token = self.set_token(24)
         
-
     def set_token(self, length):
         return secrets.token_hex(length)
     
@@ -53,13 +52,15 @@ class Whiskey(db.Model):
     variety = db.Column(db.String(150))
     origin = db.Column(db.String(150))
     year = db.Column(db.String(5))
+    user_token = db.Column(db.String, db.ForeignKey('user.token'), nullable=False)
 
-    def __init__(self, brand, variety, origin, year):
+    def __init__(self, brand, variety, origin, year, user_token, id=''):
         self.id = self.set_id()
         self.brand = brand
         self.variety = variety
         self.origin = origin
         self.year = year
+        self.user_token = user_token
 
     def __repr__(self):
         return f'The following whiskey has been added to the collection {self.brand}'
@@ -68,7 +69,6 @@ class Whiskey(db.Model):
         return (secrets.token_urlsafe())
 
 class WhiskeySchema(ma.Schema):
-
     class Meta:
         fields = ['id','brand','variety','origin','year']
 
