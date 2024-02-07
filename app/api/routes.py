@@ -34,7 +34,7 @@ def create_whiskeys(current_user_token):
 @token_required
 def get_whiskeys(current_user_token):
     a_user = current_user_token.token
-    whiskeys = Whiskey.query.filter(user_token = a_user).all()
+    whiskeys = Whiskey.query.filter_by(user_token = a_user).all()
     response = whiskeys_schema.dump(whiskeys)
     return jsonify(response)
 
@@ -62,7 +62,7 @@ def update_whiskey(current_user_token,id):
     return jsonify(response)
 
 #DELETE
-@api.route('/whiskeys/<id>')
+@api.route('/whiskeys/<id>', methods=['DELETE'])
 @token_required
 def delete_whiskey(current_user_token,id):
     whiskey = Whiskey.query.get(id)
